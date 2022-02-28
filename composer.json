@@ -1,5 +1,5 @@
 {
-    "name": "hughcube/laravel-package",
+    "name": "hughcube/laravel-octane",
     "description": "",
     "license": "MIT",
     "authors": [
@@ -9,36 +9,38 @@
         }
     ],
     "require": {
-        "php": "7.*|8.*",
-        "illuminate/support": ">=8.0"
+        "php": "8.*",
+        "laravel/octane": "*",
+        "hughcube/laravel-knight": ">=3.0"
     },
     "require-dev": {
         "laravel/framework": "*",
         "laravel/lumen-framework": "*",
         "squizlabs/php_codesniffer": "*",
         "phpstan/phpstan": "*",
-        "orchestra/testbench": "*"
+        "orchestra/testbench": "*",
+        "swoole/ide-helper": "*"
     },
     "autoload": {
         "psr-4": {
-            "HughCube\\Laravel\\Package\\": "src"
+            "HughCube\\Laravel\\Octane\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "HughCube\\Laravel\\Package\\Tests\\": "tests"
+            "HughCube\\Laravel\\Octane\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "HughCube\\Laravel\\Package\\ServiceProvider"
+                "HughCube\\Laravel\\Octane\\ServiceProvider"
             ]
         }
     },
     "scripts": {
         "test": "phpunit --verbose --coverage-clover=coverage.clover",
-        "phpstan": "phpstan analyse -vvv",
+        "phpstan": "phpstan analyse --memory-limit=-1 -vvv",
         "check-style": "phpcs -p --standard=PSR2 src/ -v",
         "fix-style": "phpcbf -p --standard=PSR2 src/ -v"
     },

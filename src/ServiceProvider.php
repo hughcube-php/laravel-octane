@@ -6,11 +6,10 @@
  * Time: 10:32 下午.
  */
 
-namespace HughCube\Laravel\Package;
+namespace HughCube\Laravel\Octane;
 
-use Illuminate\Foundation\Application as LaravelApplication;
+use HughCube\Laravel\Octane\Commands\PrepareCommand;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-use Laravel\Lumen\Application as LumenApplication;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -19,13 +18,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     public function boot()
     {
-        $source = realpath(dirname(__DIR__).'/config/config.php');
-
-        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
-            $this->publishes([$source => config_path(sprintf("%s.php", Package::getFacadeAccessor()))]);
-        } elseif ($this->app instanceof LumenApplication) {
-            $this->app->configure(Package::getFacadeAccessor());
-        }
+        $this->commands([PrepareCommand::class]);
     }
 
     /**
@@ -33,8 +26,6 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Package::getFacadeAccessor(), function ($app) {
-            return new Manager();
-        });
+
     }
 }
