@@ -28,7 +28,7 @@ class PrepareCommand extends StartSwooleCommand
                     {--task-workers=auto : The number of task workers that should be available to handle tasks}
                     {--max-requests=500 : The number of requests to process before reloading the server}
                     {--watch : Automatically reload the server when the application is modified}
-                    {--state-file : Server state file}';
+                    {--state-file= : Server state file}';
 
     /**
      * The command's description.
