@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: hugh.li
  * Date: 2021/2/22
- * Time: 11:18
+ * Time: 11:18.
  */
 
 namespace HughCube\Laravel\Octane\Commands;
@@ -31,7 +31,6 @@ class ListClassPropertiesCommand extends Command
      * @inheritdoc
      */
     protected $description = 'Query classes properties';
-
 
     public function handle(Schedule $schedule)
     {

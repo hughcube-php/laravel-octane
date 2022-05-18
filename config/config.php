@@ -4,7 +4,7 @@ return [
     'default' => 'default',
 
     /**
-     * default config
+     * default config.
      */
     'defaults' => [],
 
