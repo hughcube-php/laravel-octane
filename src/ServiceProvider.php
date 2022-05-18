@@ -30,6 +30,5 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     public function register()
     {
-
     }
 }
