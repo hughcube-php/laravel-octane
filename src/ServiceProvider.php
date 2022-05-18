@@ -8,6 +8,7 @@
 
 namespace HughCube\Laravel\Octane;
 
+use HughCube\Laravel\Octane\Commands\ListClassPropertiesCommand;
 use HughCube\Laravel\Octane\Commands\PrepareCommand;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
@@ -18,7 +19,10 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     public function boot()
     {
-        $this->commands([PrepareCommand::class]);
+        $this->commands([
+            PrepareCommand::class,
+            ListClassPropertiesCommand::class,
+        ]);
     }
 
     /**
