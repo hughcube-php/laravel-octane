@@ -9,9 +9,11 @@
 namespace HughCube\Laravel\Octane;
 
 use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Octane\Contracts\DispatchesTasks;
+use Laravel\Octane\Swoole\WorkerState;
 use Laravel\SerializableClosure\Exceptions\PhpVersionNotSupportedException;
 use Laravel\SerializableClosure\SerializableClosure;
 use Psr\SimpleCache\InvalidArgumentException;
@@ -20,10 +22,15 @@ use Swoole\Http\Server;
 /**
  * @method static DispatchesTasks tasks()
  *
- * @mixin  \Laravel\Octane\Octane
+ * @see \Laravel\Octane\Octane
  */
 class Octane extends \Laravel\Octane\Facades\Octane
 {
+    protected static function getApp()
+    {
+        return app();
+    }
+
     /**
      * @return Repository
      */
@@ -33,26 +40,42 @@ class Octane extends \Laravel\Octane\Facades\Octane
     }
 
     /**
-     * @param callable $callable
+     * @param  callable  $callable
      *
      * @return void
      */
-    public static function task(callable $callable)
+    public static function task(callable $callable): void
     {
         static::tasks()->dispatch([$callable]);
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @return null|WorkerState
+     * @throws
+     * @phpstan-ignore-next-line
+     */
+    public static function workerState(): null|WorkerState
+    {
+        /** @phpstan-ignore-next-line */
+        if (static::getApp()->bound(WorkerState::class)) {
+            /** @phpstan-ignore-next-line */
+            return static::getApp()->make(WorkerState::class);
+        }
+        return null;
+    }
+
+    /**
+     * @return int
      * @throws PhpVersionNotSupportedException
      *
-     * @return int
+     * @throws InvalidArgumentException
+     * @throws BindingResolutionException
      */
     public static function waitSwooleTasks(): int
     {
         $workerCount = 0;
-        if (class_exists(Server::class) && app()->bound(Server::class)) {
-            $workerCount = app(Server::class)->setting['task_worker_num'] ?? 0;
+        if (class_exists(Server::class) && static::getApp()->bound(Server::class)) {
+            $workerCount = static::getApp()->make(Server::class)->setting['task_worker_num'] ?? 0;
         }
 
         /** 生成标识 */
