@@ -22,8 +22,8 @@ class ListClassPropertiesCommand extends Command
      * @inheritdoc
      */
     protected $signature = 'octane:list-class-properties
-                            {--path=*Http/Controllers : Number of repetitions, one by default }
-                            {--name=**.php : The name of the class that needs to be executed}
+                            {--path=*Http : Number of repetitions, one by default }
+                            {--name=**Controller.php : The name of the class that needs to be executed}
                             {--class=*App\* : The name of the class that needs to be executed}
     ';
 
