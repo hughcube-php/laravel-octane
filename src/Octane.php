@@ -64,6 +64,14 @@ class Octane extends \Laravel\Octane\Facades\Octane
         return null;
     }
 
+    public static function isOctane(): bool
+    {
+        return
+            null !== static::workerState()
+            && isset($_SERVER['LARAVEL_OCTANE'])
+            && $_SERVER['LARAVEL_OCTANE'];
+    }
+
     /**
      * @return int
      * @throws PhpVersionNotSupportedException
@@ -85,7 +93,7 @@ class Octane extends \Laravel\Octane\Facades\Octane
             $spies[] = sprintf('%s-%s-%s', getmypid(), md5($random), crc32($random));
         }
 
-        /** 异步写入探针 */
+        /** 投递异步任务写入标识 */
         foreach ($spies as $index => $spy) {
             app(Server::class)->task(new SerializableClosure(function () use ($spy) {
                 Cache::store('octane')->put($spy, time(), 600);
