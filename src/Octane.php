@@ -40,7 +40,7 @@ class Octane extends \Laravel\Octane\Facades\Octane
     }
 
     /**
-     * @param callable $callable
+     * @param  callable  $callable
      *
      * @return void
      */
@@ -50,10 +50,10 @@ class Octane extends \Laravel\Octane\Facades\Octane
     }
 
     /**
-     * @throws
-     *
      * @return null|WorkerState
      * @phpstan-ignore-next-line
+     * @throws
+     *
      */
     public static function workerState(): null|WorkerState
     {
@@ -75,11 +75,11 @@ class Octane extends \Laravel\Octane\Facades\Octane
     }
 
     /**
-     * @throws PhpVersionNotSupportedException
+     * @return int
      * @throws InvalidArgumentException
      * @throws BindingResolutionException
      *
-     * @return int
+     * @throws PhpVersionNotSupportedException
      */
     public static function waitSwooleTasks(): int
     {
@@ -115,5 +115,15 @@ class Octane extends \Laravel\Octane\Facades\Octane
         }
 
         return $workerCount;
+    }
+
+    public static function getRuntimeType($default = null): null|string|int|float|bool
+    {
+        return getenv('OCTANE_RUNTIME_TYPE') ?: $default;
+    }
+
+    public static function isRuntimeType(string $type): bool
+    {
+        return $type === static::getRuntimeType();
     }
 }

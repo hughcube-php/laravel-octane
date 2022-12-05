@@ -22,11 +22,11 @@ use Psr\SimpleCache\InvalidArgumentException;
 class WaitTaskCompleteAction
 {
     /**
-     * @throws InvalidArgumentException
+     * @return JsonResponse
      * @throws BindingResolutionException
      * @throws PhpVersionNotSupportedException
      *
-     * @return JsonResponse
+     * @throws InvalidArgumentException
      */
     protected function action(): JsonResponse
     {
@@ -35,7 +35,7 @@ class WaitTaskCompleteAction
         $end = microtime(true);
 
         $duration = round((($end - $start) * 1000), 2);
-        $type = getenv('OCTANE_RUNTIME_TYPE') ?: 'unknown';
+        $type = Octane::getRuntimeType() ?: 'unknown';
         $uri = $this->getRequest()->getRequestUri();
 
         /** 记录log */
@@ -46,9 +46,9 @@ class WaitTaskCompleteAction
     }
 
     /**
+     * @return LoggerInterface
      * @throws BindingResolutionException
      *
-     * @return LoggerInterface
      */
     protected function getLogChannel(): LoggerInterface
     {
@@ -58,9 +58,9 @@ class WaitTaskCompleteAction
     }
 
     /**
+     * @return mixed
      * @throws BindingResolutionException
      *
-     * @return mixed
      */
     protected function getLogLevel(): mixed
     {
@@ -68,9 +68,9 @@ class WaitTaskCompleteAction
     }
 
     /**
+     * @return Repository
      * @throws BindingResolutionException
      *
-     * @return Repository
      */
     protected function getContainerConfig(): Repository
     {
@@ -78,10 +78,10 @@ class WaitTaskCompleteAction
     }
 
     /**
-     * @throws
-     *
      * @return Request
      * @phpstan-ignore-next-line
+     * @throws
+     *
      */
     protected function getRequest(): Request
     {
