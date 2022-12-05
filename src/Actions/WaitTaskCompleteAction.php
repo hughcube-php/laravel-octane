@@ -22,11 +22,11 @@ use Psr\SimpleCache\InvalidArgumentException;
 class WaitTaskCompleteAction
 {
     /**
-     * @return JsonResponse
      * @throws BindingResolutionException
      * @throws PhpVersionNotSupportedException
-     *
      * @throws InvalidArgumentException
+     *
+     * @return JsonResponse
      */
     protected function action(): JsonResponse
     {
@@ -46,9 +46,9 @@ class WaitTaskCompleteAction
     }
 
     /**
-     * @return LoggerInterface
      * @throws BindingResolutionException
      *
+     * @return LoggerInterface
      */
     protected function getLogChannel(): LoggerInterface
     {
@@ -58,9 +58,9 @@ class WaitTaskCompleteAction
     }
 
     /**
-     * @return mixed
      * @throws BindingResolutionException
      *
+     * @return mixed
      */
     protected function getLogLevel(): mixed
     {
@@ -68,9 +68,9 @@ class WaitTaskCompleteAction
     }
 
     /**
-     * @return Repository
      * @throws BindingResolutionException
      *
+     * @return Repository
      */
     protected function getContainerConfig(): Repository
     {
@@ -78,10 +78,10 @@ class WaitTaskCompleteAction
     }
 
     /**
-     * @return Request
-     * @phpstan-ignore-next-line
      * @throws
      *
+     * @return Request
+     * @phpstan-ignore-next-line
      */
     protected function getRequest(): Request
     {

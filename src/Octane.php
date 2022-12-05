@@ -40,7 +40,7 @@ class Octane extends \Laravel\Octane\Facades\Octane
     }
 
     /**
-     * @param  callable  $callable
+     * @param callable $callable
      *
      * @return void
      */
@@ -50,10 +50,10 @@ class Octane extends \Laravel\Octane\Facades\Octane
     }
 
     /**
-     * @return null|WorkerState
-     * @phpstan-ignore-next-line
      * @throws
      *
+     * @return null|WorkerState
+     * @phpstan-ignore-next-line
      */
     public static function workerState(): null|WorkerState
     {
@@ -75,11 +75,11 @@ class Octane extends \Laravel\Octane\Facades\Octane
     }
 
     /**
-     * @return int
      * @throws InvalidArgumentException
      * @throws BindingResolutionException
-     *
      * @throws PhpVersionNotSupportedException
+     *
+     * @return int
      */
     public static function waitSwooleTasks(): int
     {
