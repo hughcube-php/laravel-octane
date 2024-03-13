@@ -10,7 +10,8 @@
     ],
     "require": {
         "php": "8.*",
-        "laravel/octane": "*"
+        "laravel/octane": "*",
+        "hughcube/laravel-knight": "*"
     },
     "require-dev": {
         "laravel/framework": "*",

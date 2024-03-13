@@ -14,6 +14,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ReflectionClass;
+use ReflectionException;
 use Symfony\Component\Finder\Finder;
 
 class ListClassPropertiesCommand extends Command
@@ -30,9 +31,9 @@ class ListClassPropertiesCommand extends Command
     /**
      * @inheritdoc
      */
-    protected $description = 'Query classes properties';
+    protected $description = 'Query classes properties, properties are not recommended in octane.';
 
-    public function handle(Schedule $schedule)
+    public function handle(Schedule $schedule): void
     {
         $basePath = base_path();
         $files = (new Finder())->files()
@@ -52,7 +53,7 @@ class ListClassPropertiesCommand extends Command
 
             try {
                 $reflection = new ReflectionClass($class);
-            } catch (\ReflectionException $e) {
+            } catch (ReflectionException $e) {
                 continue;
             }
 

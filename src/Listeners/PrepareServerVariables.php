@@ -8,14 +8,17 @@
 
 namespace HughCube\Laravel\Octane\Listeners;
 
+use HughCube\Laravel\Knight\Traits\Container;
 use Laravel\Octane\Events\RequestReceived;
 
 class PrepareServerVariables
 {
+    use Container;
+
     /**
      * Handle the event.
      *
-     * @param RequestReceived $event
+     * @param  RequestReceived  $event
      *
      * @return void
      */
@@ -25,11 +28,9 @@ class PrepareServerVariables
     }
 
     /**
-     * @param RequestReceived $event
-     *
-     * @return void
+     * @param  RequestReceived  $event
      */
-    protected function prepareHost(mixed $event)
+    protected function prepareHost(mixed $event): void
     {
         if (!$event instanceof RequestReceived) {
             return;
@@ -40,8 +41,8 @@ class PrepareServerVariables
             return;
         }
 
-        $host = parse_url(config('app.url'), PHP_URL_HOST);
-        if (empty($host)) {
+        $appUrl = $this->getContainerConfig('app.url');
+        if (empty($host = parse_url($appUrl, PHP_URL_HOST))) {
             return;
         }
 

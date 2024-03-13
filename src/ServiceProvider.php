@@ -17,7 +17,7 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * Boot the provider.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->commands([
             PrepareCommand::class,
