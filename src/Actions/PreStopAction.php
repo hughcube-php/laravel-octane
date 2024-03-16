@@ -9,23 +9,20 @@
 namespace HughCube\Laravel\Octane\Actions;
 
 use HughCube\Laravel\Knight\Routing\Controller;
-use Illuminate\Cache\CacheManager;
+use HughCube\Laravel\Octane\Octane;
 use Illuminate\Contracts\Cache\Repository;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Laravel\SerializableClosure\Exceptions\PhpVersionNotSupportedException;
 use Laravel\SerializableClosure\SerializableClosure;
 use Psr\SimpleCache\InvalidArgumentException;
-use Swoole\Http\Server;
 
 class PreStopAction extends Controller
 {
     /**
      * @throws PhpVersionNotSupportedException
      * @throws InvalidArgumentException
-     * @throws BindingResolutionException
      */
     protected function action(): JsonResponse
     {
@@ -56,29 +53,18 @@ class PreStopAction extends Controller
         ]);
     }
 
-    /**
-     * @throws BindingResolutionException
-     */
     protected function getCache(): Repository
     {
-        /** @var CacheManager $cacheManager */
-        $cacheManager = $this->getContainer()->make('cache');
-
-        return $cacheManager->store('octane');
+        return Octane::getCache();
     }
 
     /**
-     * @throws BindingResolutionException
      * @throws PhpVersionNotSupportedException
      * @throws InvalidArgumentException
      */
     public function waitTaskComplete(): int
     {
-        /** @var null|Server $server */
-        $server = null;
-        if (class_exists(Server::class) && $this->getContainer()->bound(Server::class)) {
-            $server = $this->getContainer()->make(Server::class);
-        }
+        $server = Octane::getSwooleServer();
 
         $workerCount = null === $server ? 0 : $server->setting['task_worker_num'];
 

@@ -1,5 +1,4 @@
 .idea
-.ide/
 *.DS_Store
 /vendor
 /coverage
