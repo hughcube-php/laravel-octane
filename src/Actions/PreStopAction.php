@@ -44,12 +44,12 @@ class PreStopAction extends Controller
         ));
 
         return new JsonResponse([
-            'code' => 200,
+            'code'    => 200,
             'message' => 'ok',
-            'data' => [
-                'duration' => $duration,
+            'data'    => [
+                'duration'          => $duration,
                 'task_worker_count' => $taskWorkerCount,
-            ]
+            ],
         ]);
     }
 
@@ -73,7 +73,7 @@ class PreStopAction extends Controller
         for ($i = 1; $i <= $workerCount; $i++) {
             $random = serialize([microtime(), Str::random(32), $i]);
             $spies[] = [
-                'key' => sprintf('%s-%s-%s', getmypid(), md5($random), crc32($random)),
+                'key'   => sprintf('%s-%s-%s', getmypid(), md5($random), crc32($random)),
                 'value' => $random,
             ];
         }

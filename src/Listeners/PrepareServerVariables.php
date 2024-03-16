@@ -18,7 +18,7 @@ class PrepareServerVariables
     /**
      * Handle the event.
      *
-     * @param  RequestReceived  $event
+     * @param RequestReceived $event
      *
      * @return void
      */
@@ -28,7 +28,7 @@ class PrepareServerVariables
     }
 
     /**
-     * @param  RequestReceived  $event
+     * @param RequestReceived $event
      */
     protected function prepareHost(mixed $event): void
     {
