@@ -38,11 +38,11 @@ class ListClassPropertiesCommand extends Command
         $basePath = base_path();
         $files = (new Finder())->files()
             ->in(
-                Collection::make(($this->option('path') ?: []))->map(function ($path) {
+                Collection::make($this->option('path') ?: [])->map(function ($path) {
                     return is_dir($path) ? $path : app_path($path);
                 })->values()->toArray()
             )
-            ->name(($this->option('name') ?: []));
+            ->name($this->option('name') ?: []);
 
         foreach ($files as $file) {
             $class = Str::replaceFirst($basePath, '', $file->getRealPath());
@@ -64,7 +64,7 @@ class ListClassPropertiesCommand extends Command
             foreach ($reflection->getProperties() as $property) {
                 $inClass = $property->getDeclaringClass()->getName();
 
-                if (!Str::is(($this->option('class') ?: []), $inClass)) {
+                if (!Str::is($this->option('class') ?: [], $inClass)) {
                     continue;
                 }
 

@@ -25,6 +25,7 @@ class Octane extends \Laravel\Octane\Facades\Octane
 
     /**
      * @throws
+     *
      * @phpstan-ignore-next-line
      */
     public static function getWorkerState(): null|WorkerState
@@ -38,6 +39,7 @@ class Octane extends \Laravel\Octane\Facades\Octane
 
     /**
      * @throws
+     *
      * @phpstan-ignore-next-line
      */
     public static function getSwooleServer(): null|Server
