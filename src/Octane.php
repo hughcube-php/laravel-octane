@@ -8,9 +8,12 @@
 
 namespace HughCube\Laravel\Octane;
 
+use HughCube\Laravel\Octane\Listeners\WaitTaskComplete;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Octane\Swoole\WorkerState;
+use Laravel\SerializableClosure\Exceptions\PhpVersionNotSupportedException;
+use Psr\SimpleCache\InvalidArgumentException;
 use Swoole\Http\Server;
 
 /**
@@ -57,5 +60,14 @@ class Octane extends \Laravel\Octane\Facades\Octane
     public static function isSwoole(): bool
     {
         return static::getSwooleServer() instanceof Server;
+    }
+
+    /**
+     * @throws PhpVersionNotSupportedException
+     * @throws InvalidArgumentException
+     */
+    public static function waitTaskComplete(): int
+    {
+        return WaitTaskComplete::wait();
     }
 }
