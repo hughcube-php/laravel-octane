@@ -11,12 +11,14 @@ namespace HughCube\Laravel\Octane;
 use HughCube\Laravel\Octane\Listeners\WaitTaskComplete;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Cache;
+use Laravel\Octane\Contracts\DispatchesTasks;
 use Laravel\Octane\Swoole\WorkerState;
 use Laravel\SerializableClosure\Exceptions\PhpVersionNotSupportedException;
 use Psr\SimpleCache\InvalidArgumentException;
 use Swoole\Http\Server;
 
 /**
+ * @method static DispatchesTasks tasks()
  * @see \Laravel\Octane\Octane
  */
 class Octane extends \Laravel\Octane\Facades\Octane
@@ -24,6 +26,16 @@ class Octane extends \Laravel\Octane\Facades\Octane
     public static function getCache(): Repository
     {
         return Cache::store('octane');
+    }
+
+    /**
+     * @param  callable  $callable
+     *
+     * @return void
+     */
+    public static function task(callable $callable): void
+    {
+        static::tasks()->dispatch([$callable]);
     }
 
     /**
