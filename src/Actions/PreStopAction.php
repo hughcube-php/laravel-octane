@@ -44,10 +44,10 @@ class PreStopAction extends Controller
         ));
 
         return new JsonResponse([
-            'code' => 200,
+            'code'    => 200,
             'message' => 'ok',
-            'data' => [
-                'duration' => $duration,
+            'data'    => [
+                'duration'          => $duration,
                 'task_worker_count' => $taskWorkerCount,
             ],
         ]);
