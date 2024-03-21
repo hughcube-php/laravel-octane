@@ -15,7 +15,7 @@ use Laravel\Octane\Contracts\DispatchesTasks;
 use Laravel\Octane\Swoole\WorkerState;
 use Laravel\SerializableClosure\Exceptions\PhpVersionNotSupportedException;
 use Psr\SimpleCache\InvalidArgumentException;
-use Swoole\Http\Server;
+use Swoole\Server;
 
 /**
  * @method static DispatchesTasks tasks()
@@ -53,25 +53,12 @@ class Octane extends \Laravel\Octane\Facades\Octane
     }
 
     /**
-     * @throws
-     *
-     * @phpstan-ignore-next-line
-     */
-    public static function getSwooleServer(): null|Server
-    {
-        if (class_exists(Server::class) && static::$app->bound(Server::class)) {
-            return static::$app->make(Server::class);
-        }
-
-        return null;
-    }
-
-    /**
      * @return bool
      */
     public static function isSwoole(): bool
     {
-        return static::getSwooleServer() instanceof Server;
+        /** @phpstan-ignore-next-line */
+        return class_exists(Server::class) && static::getWorkerState()?->server instanceof Server;
     }
 
     /**

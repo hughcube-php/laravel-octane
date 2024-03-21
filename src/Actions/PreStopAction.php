@@ -26,7 +26,7 @@ class PreStopAction extends Controller
      */
     protected function action(): JsonResponse
     {
-        $this->getDispatcher()->dispatch($this);
+        $this->getEventsDispatcher()->dispatch($this);
 
         $start = microtime(true);
         $taskWorkerCount = WaitTaskComplete::wait();
@@ -37,17 +37,17 @@ class PreStopAction extends Controller
 
         /** 记录log */
         Log::channel()->info(sprintf(
-            'Wait swoole task complete uri: %s, count: %s, duration: %.2fms',
+            'Wait tasks complete uri: %s, count: %s, duration: %.5fms',
             $uri,
             $taskWorkerCount,
             $duration
         ));
 
         return new JsonResponse([
-            'code'    => 200,
+            'code' => 200,
             'message' => 'ok',
-            'data'    => [
-                'duration'          => $duration,
+            'data' => [
+                'duration' => round($duration, 5),
                 'task_worker_count' => $taskWorkerCount,
             ],
         ]);

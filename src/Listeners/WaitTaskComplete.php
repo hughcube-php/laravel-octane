@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Laravel\SerializableClosure\Exceptions\PhpVersionNotSupportedException;
 use Laravel\SerializableClosure\SerializableClosure;
 use Psr\SimpleCache\InvalidArgumentException;
+use Swoole\Server;
 
 class WaitTaskComplete
 {
@@ -32,7 +33,8 @@ class WaitTaskComplete
     public static function wait(): int
     {
         if (Octane::isSwoole()) {
-            return static::waitSwooleTaskComplete();
+            /** @phpstan-ignore-next-line */
+            return static::waitSwooleTaskComplete(Octane::getWorkerState()->server);
         }
 
         return 0;
@@ -42,19 +44,17 @@ class WaitTaskComplete
      * @throws PhpVersionNotSupportedException
      * @throws InvalidArgumentException
      */
-    protected static function waitSwooleTaskComplete(): int
+    protected static function waitSwooleTaskComplete(Server $server): int
     {
-        $server = Octane::getSwooleServer();
-
         /** @var int $workerCount 当前task进程数量 */
-        $workerCount = null === $server ? 0 : $server->setting['task_worker_num'];
+        $workerCount = $server->setting['task_worker_num'];
 
         /** 生成标识 */
         $spies = [];
         for ($i = 1; $i <= $workerCount; $i++) {
             $random = serialize([microtime(), Str::random(32), $i]);
             $spies[] = [
-                'key'   => sprintf('%s-%s-%s', getmypid(), md5($random), crc32($random)),
+                'key' => sprintf('%s-%s-%s', getmypid(), md5($random), crc32($random)),
                 'value' => $random,
             ];
         }
